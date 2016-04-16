@@ -1,0 +1,14 @@
+{
+  "title": "Stop AutoPlay Next for YouTube™",
+  "name": "isafyoutube",
+  "description": "Stop YouTube from Playing next tracks (aka disable autoplay button).",
+  "id": "jid1-nbzaq9ol2hyY64gGe@jetpack",
+  "license": "Mozilla Public License, version 2.0",
+  "version": "0.1.0",
+  "author": "James Fray",
+  "main": "./lib/background.js",
+  "url": "http://add0n.com/stop-autoplay.html",
+  "permissions": {
+    "private-browsing": true
+  }
+}
