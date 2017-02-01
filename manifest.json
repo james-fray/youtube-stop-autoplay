@@ -3,32 +3,32 @@
   "short_name": "isafyoutube",
   "description": "Stop YouTube from Playing next tracks (aka disable autoplay button).",
   "author": "James Fray",
-  "version": "0.1.0",
+  "version": "0.1.4",
   "manifest_version": 2,
   "permissions": [
     "storage",
     "tabs",
     "webRequest",
     "webRequestBlocking",
-    "https://*.ytimg.com/yts/jsbin/*",
-    "http://*.ytimg.com/yts/jsbin/*"
+    "*://*.youtube.com/yts/jsbin/*",
+    "*://*.ytimg.com/yts/jsbin/*"
   ],
   "content_scripts": [
     {
       "matches": [
-        "https://www.youtube.com/*",
-        "http://www.youtube.com/*",
-        "https://youtube.com/*",
-        "http://youtube.com/*"
+        "https://*.youtube.com/*",
+        "http://*.youtube.com/*"
       ],
-      "css": ["data/inject.css"]
+      "js": ["data/inject.js"],
+      "run_at": "document_start"
     }
   ],
   "background": {
-    "scripts": [
-      "lib/chrome/chrome.js",
-      "lib/background.js"
-    ]
+    "scripts": ["background.js"]
+  },
+  "options_ui": {
+    "page": "data/options/index.html",
+    "chrome_style": true
   },
   "homepage_url": "http://add0n.com/stop-autoplay.html",
   "icons": {
