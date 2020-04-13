@@ -1,27 +1,41 @@
 'use strict';
 
-chrome.webRequest.onBeforeRequest.addListener(function (details) {
-    let tmp = {
-      cancel: details.url.indexOf('watch_autoplayrenderer.js') !== -1
-    };
-    return tmp;
-  },
-  {urls: [
+chrome.webRequest.onBeforeRequest.addListener(d => {
+  return {
+    cancel: d.url.indexOf('watch_autoplayrenderer.js') !== -1 || d.url.endsWith('endscreen.js')
+  };
+}, {
+  urls: [
     '*://*.ytimg.com/yts/jsbin/*',
-    '*://*.youtube.com/yts/jsbin/*'
-  ]},
-  ['blocking']
-);
+    '*://www.youtube.com/yts/jsbin/*',
+    '*://www.youtube.com/s/player/*'
+  ],
+  types: ['script']
+}, ['blocking']);
 
-(function () {
-  let url = 'http://add0n.com/stop-autoplay.html';
-  let version = chrome.runtime.getManifest().version;
-  chrome.storage.local.get('version', (obj) => {
-    if (obj.version !== version) {
-      chrome.storage.local.set({version: version}, () => chrome.tabs.create({
-        url: url + `?version=${version}&type=${obj.version ? 'update' : 'install'}`,
-        active: true
+/* FAQs & Feedback */
+{
+  const {management, runtime: {onInstalled, setUninstallURL, getManifest}, storage, tabs} = chrome;
+  if (navigator.webdriver !== true) {
+    const page = getManifest().homepage_url;
+    const {name, version} = getManifest();
+    onInstalled.addListener(({reason, previousVersion}) => {
+      management.getSelf(({installType}) => installType === 'normal' && storage.local.get({
+        'faqs': true,
+        'last-update': 0
+      }, prefs => {
+        if (reason === 'install' || (prefs.faqs && reason === 'update')) {
+          const doUpdate = (Date.now() - prefs['last-update']) / 1000 / 60 / 60 / 24 > 45;
+          if (doUpdate && previousVersion !== version) {
+            tabs.create({
+              url: page + '?version=' + version + (previousVersion ? '&p=' + previousVersion : '') + '&type=' + reason,
+              active: reason === 'install'
+            });
+            storage.local.set({'last-update': Date.now()});
+          }
+        }
       }));
-    }
-  });
-})();
+    });
+    setUninstallURL(page + '?rd=feedback&name=' + encodeURIComponent(name) + '&version=' + version);
+  }
+}

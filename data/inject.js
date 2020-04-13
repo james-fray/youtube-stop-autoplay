@@ -1,32 +1,29 @@
 'use strict';
 
-var css = `
-.autoplay-bar {
-  opacity: opacity:value;
-}
-.checkbox-on-off {
-  display: none;
-}
+const css = `
+  ytd-compact-autoplay-renderer.ytd-watch-next-secondary-results-renderer,
+  .autoplay-bar {
+    opacity: opacity-value;
+  }
+  ytd-compact-autoplay-renderer.ytd-watch-next-secondary-results-renderer paper-toggle-button,
+  .checkbox-on-off {
+    display: none;
+  }
 `;
 
-function addGlobalStyle (css) {
-  try {
-    let elmHead = document.getElementsByTagName('head')[0];
-    let elmStyle = document.createElement('style');
-    elmStyle.type = 'text/css';
-    elmHead.appendChild(elmStyle);
-    elmStyle.textContent = css;
-  }
-  catch (e) {
-    if (!document.styleSheets.length) {
-      document.createStyleSheet();
-    }
-    document.styleSheets[0].cssText += css;
-  }
+function addGlobalStyle(css) {
+  const style = document.createElement('style');
+  style.textContent = css;
+  document.documentElement.appendChild(style);
 }
 
 chrome.storage.local.get({
   'opacity': 30
-}, (obj) => {
-  addGlobalStyle(css.replace('opacity:value', obj.opacity / 100));
+}, prefs => {
+  if (prefs.opacity) {
+    addGlobalStyle(css.replace('opacity-value', prefs.opacity / 100));
+  }
+  else {
+    addGlobalStyle(css.replace('opacity-value', prefs.opacity / 100 + '; display: none;'));
+  }
 });

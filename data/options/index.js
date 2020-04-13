@@ -1,20 +1,42 @@
 'use strict';
 
-function save_options() {
-  let opacity = +document.getElementById('opacity').value;
-  chrome.storage.local.set({opacity}, function() {
-    let status = document.getElementById('status');
-    status.textContent = 'Options saved.';
-    setTimeout(() => status.textContent = '', 750);
-  });
-}
+const toast = document.getElementById('toast');
 
-function restore_options() {
-  chrome.storage.local.get({
-    opacity: 30
-  }, function(items) {
-    document.getElementById('opacity').value = items.opacity;
+chrome.storage.local.get({
+  opacity: 30,
+  faqs: true
+}, prefs => {
+  document.getElementById('opacity').value = prefs.opacity;
+  document.getElementById('faqs').checked = prefs.faqs;
+});
+
+document.getElementById('save').addEventListener('click', () => {
+  const opacity = Number(document.getElementById('opacity').value);
+  const faqs = document.getElementById('faqs').checked;
+
+  chrome.storage.local.set({
+    opacity,
+    faqs
+  }, () => {
+    toast.textContent = 'Options saved.';
+    setTimeout(() => toast.textContent = '', 750);
   });
-}
-document.addEventListener('DOMContentLoaded', restore_options);
-document.getElementById('save').addEventListener('click', save_options);
+});
+// reset
+document.getElementById('reset').addEventListener('click', e => {
+  if (e.detail === 1) {
+    toast.textContent = 'Double-click to reset!';
+    window.setTimeout(() => toast.textContent = '', 750);
+  }
+  else {
+    localStorage.clear();
+    chrome.storage.local.clear(() => {
+      chrome.runtime.reload();
+      window.close();
+    });
+  }
+});
+// support
+document.getElementById('support').addEventListener('click', () => chrome.tabs.create({
+  url: chrome.runtime.getManifest().homepage_url + '?rd=donate'
+}));

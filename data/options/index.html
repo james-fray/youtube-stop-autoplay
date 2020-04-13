@@ -3,21 +3,33 @@
 <head>
   <title>Options :: Stop AutoPlay Next for YouTube™</title>
   <style>
-    body: { padding: 10px; }
-    p {
-      display: flex;
-      align-items: center;
+    body {
+      min-width: 500px;
+    }
+    td:last-child {
+      text-align: right;
     }
   </style>
 </head>
 
 <body>
-  <p>
-    Opacity of the "Up Next" box: <input type="range" id="opacity" value="30">
-  </p>
+  <table width="100%">
+    <tr>
+      <td>Opacity of the "Up Next" box</td>
+      <td><input type="range" id="opacity" value="30"></td>
+    </tr>
+    <tr>
+      <td><label for="faqs">Display the FAQs page on updates</label></td>
+      <td><input type="checkbox" id="faqs"></td>
+    </tr>
+  </table>
 
-  <div id="status"></div>
-  <button id="save">Save</button>
+  <p>
+    <input id="reset" value="Factory Reset" type="button"/>
+    <input id="support" value="Support Development" type="button"/>
+    <input id="save" value="Save" type="button"/>
+    <span id="toast"></span>
+  </p>
 
   <script src="index.js"></script>
 </body>

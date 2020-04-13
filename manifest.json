@@ -1,28 +1,24 @@
 {
   "name": "Stop AutoPlay Next for YouTube™",
-  "short_name": "isafyoutube",
-  "description": "Stop YouTube from Playing next tracks (aka disable autoplay button).",
+  "description": "Stop YouTube from Playing next tracks (aka disable autoplay button)",
   "author": "James Fray",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "manifest_version": 2,
   "permissions": [
     "storage",
-    "tabs",
     "webRequest",
     "webRequestBlocking",
-    "*://*.youtube.com/yts/jsbin/*",
-    "*://*.ytimg.com/yts/jsbin/*"
+    "*://*.ytimg.com/yts/jsbin/*",
+    "*://www.youtube.com/yts/jsbin/*",
+    "*://www.youtube.com/s/player/*"
   ],
-  "content_scripts": [
-    {
-      "matches": [
-        "https://*.youtube.com/*",
-        "http://*.youtube.com/*"
-      ],
-      "js": ["data/inject.js"],
-      "run_at": "document_start"
-    }
-  ],
+  "content_scripts": [{
+    "matches": [
+      "*://*.youtube.com/*"
+    ],
+    "js": ["data/inject.js"],
+    "run_at": "document_start"
+  }],
   "background": {
     "scripts": ["background.js"]
   },
@@ -30,10 +26,16 @@
     "page": "data/options/index.html",
     "chrome_style": true
   },
-  "homepage_url": "http://add0n.com/stop-autoplay.html",
+  "homepage_url": "https://add0n.com/stop-autoplay.html",
   "icons": {
     "16": "data/icons/16.png",
+    "19": "data/icons/19.png",
+    "32": "data/icons/32.png",
+    "38": "data/icons/38.png",
     "48": "data/icons/48.png",
-    "128": "data/icons/128.png"
+    "64": "data/icons/64.png",
+    "128": "data/icons/128.png",
+    "256": "data/icons/256.png",
+    "512": "data/icons/512.png"
   }
 }
