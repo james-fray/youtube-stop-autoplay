@@ -1,37 +1,35 @@
 {
+  "manifest_version": 3,
+  "version": "0.3.0",
   "name": "Stop AutoPlay Next for YouTube™",
-  "description": "Stop YouTube from Playing next tracks (aka disable autoplay button)",
-  "author": "James Fray",
-  "version": "0.2.0",
-  "manifest_version": 2,
+  "description": "__MSG_description__",
+  "default_locale": "en",
   "permissions": [
     "storage",
-    "webRequest",
-    "webRequestBlocking",
-    "*://*.ytimg.com/yts/jsbin/*",
-    "*://www.youtube.com/yts/jsbin/*",
-    "*://www.youtube.com/s/player/*"
+    "declarativeNetRequest"
   ],
+  "declarative_net_request" : {
+    "rule_resources" : [{
+      "id": "ruleset",
+      "enabled": true,
+      "path": "rules.json"
+    }]
+  },
   "content_scripts": [{
     "matches": [
       "*://*.youtube.com/*"
     ],
     "js": ["data/inject.js"],
+    "css": ["data/inject.css"],
     "run_at": "document_start"
   }],
   "background": {
-    "scripts": ["background.js"]
-  },
-  "options_ui": {
-    "page": "data/options/index.html",
-    "chrome_style": true
+    "service_worker": "worker.js"
   },
   "homepage_url": "https://add0n.com/stop-autoplay.html",
   "icons": {
     "16": "data/icons/16.png",
-    "19": "data/icons/19.png",
     "32": "data/icons/32.png",
-    "38": "data/icons/38.png",
     "48": "data/icons/48.png",
     "64": "data/icons/64.png",
     "128": "data/icons/128.png",

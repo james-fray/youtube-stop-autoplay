@@ -1,0 +1,19 @@
+[{
+  "id" : 1,
+  "action" : {
+    "type" : "block"
+  },
+  "condition" : {
+    "urlFilter" : "https://www.youtube.com/*/endscreen.js",
+    "resourceTypes" : ["script", "xmlhttprequest"]
+  }
+}, {
+  "id" : 2,
+  "action" : {
+    "type" : "block"
+  },
+  "condition" : {
+    "urlFilter" : "https://www.youtube.com/*/watch_autoplayrenderer.js",
+    "resourceTypes" : ["script", "xmlhttprequest"]
+  }
+}]

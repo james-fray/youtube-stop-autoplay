@@ -27,3 +27,16 @@ chrome.storage.local.get({
     addGlobalStyle(css.replace('opacity-value', prefs.opacity / 100 + '; display: none;'));
   }
 });
+
+
+const script = document.createElement('script');
+script.textContent = `
+  window.addEventListener('yt-navigate-finish', () => {
+    try {
+      document.querySelector('.ytp-autonav-toggle-button-container [aria-checked="true"]').click()
+    }
+    catch(e) {}
+  });
+`;
+document.documentElement.appendChild(script);
+script.remove();
